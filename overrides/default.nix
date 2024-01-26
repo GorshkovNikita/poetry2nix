@@ -1672,7 +1672,7 @@ lib.composeManyExtensions [
         in
         {
           # fails to build with format=pyproject and setuptools >= 65
-          format = if (old.format == "poetry2nix") then "setuptools" else old.format;
+          format = if (old ? format && old.format == "poetry2nix") then "setuptools" else (if old ? format then old.format else null);
           nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.gfortran ];
           buildInputs = (old.buildInputs or [ ]) ++ [ blas ];
           enableParallelBuilding = true;
